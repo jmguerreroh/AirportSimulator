@@ -3,13 +3,13 @@
  *
  * La lista es doblemente enlazada:
  *
- *     primero                                   ultimo
- *        |                                         |
- *        v                                         v
- *     +------+ siguiente  +------+ siguiente  +------+
- *     | 105  | ---------> | 101  | ---------> | 103  | --> NULL
- *     |      | <--------- |      | <--------- |      |
- * NULL <-- anterior       +------+  anterior  +------+
+ *           primero                                  ultimo
+ *              |                                       |
+ *              v                                       v
+ *          +------+ siguiente  +------+ siguiente  +------+
+ *          | 105  | ---------> | 101  | ---------> | 103  | --> NULL
+ * NULL <-- |      | <--------- |      | <--------- |      |
+ *          +------+  anterior  +------+  anterior  +------+
  *
  * El simulador gráfico recorre TU lista (primero -> siguiente -> ...), así que
  * si algún puntero está mal, se verá en pantalla.

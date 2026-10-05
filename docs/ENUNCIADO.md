@@ -372,13 +372,13 @@ Los textos exactos de todos los mensajes están en [docs/PROTOCOLO.md](PROTOCOLO
 Las estructuras ya están en `estructuras.h` (**no las modifiques**):
 
 ```text
-   primero                                         ultimo
-      │                                              │
-      ▼                                              ▼
-   ┌──────┐  siguiente  ┌──────┐  siguiente  ┌──────┐
-   │ 105  │ ──────────▶ │ 101  │ ──────────▶ │ 103  │ ─▶ NULL
-   │      │ ◀────────── │      │ ◀────────── │      │
- NULL ◀─ anterior       └──────┘  anterior   └──────┘
+           primero                                   ultimo
+              │                                         │
+              ▼                                         ▼
+          ┌──────┐  siguiente  ┌──────┐  siguiente  ┌──────┐
+          │ 105  │ ──────────▶ │ 101  │ ──────────▶ │ 103  │ ─▶ NULL
+  NULL ◀─ │      │ ◀────────── │      │ ◀────────── │      │
+          └──────┘   anterior  └──────┘  anterior   └──────┘
 ```
 
 En `lista.c` escribes las funciones que necesites (y sus prototipos en `lista.h`). Tu lista debe
