@@ -126,16 +126,22 @@ sudo apt install build-essential cmake git pkg-config libsdl2-dev netcat-openbsd
 El `Makefile` trae hecho todo menos **la parte tuya, que está al final del fichero** (busca `TODO
 (estudiante)`); lo de arriba (simulador gráfico, `make tests`, `make prueba`...) no hace falta tocarlo:
 
-1. dos variables con los ficheros objeto (`.o`) de tu servidor (`SRV_OBJ`) y de tu cliente (`CLI_OBJ`),
-   uno por cada `.c`;
-2. **una regla por cada `.c`**: «este `.o` depende de este `.c`» y la orden que lo compila (cada lado con
-   su propio `-I...`);
-3. el enlazado de `./aeropuerto` y de `./controlador`;
-4. el objetivo `clean`.
+1. **una regla por ejecutable** (`aeropuerto` y `controlador`): el objetivo depende de **tus ficheros
+   `.c`** (escribes las rutas directamente) y la orden es el `$(CC)` de siempre;
+2. el objetivo `clean`.
 
-Es un `Makefile` simple: **listas de ficheros y una regla explícita por cada `.c`**, sin patrones ni
-funciones de `make`. Dentro de la zona hay un ejemplo de regla para copiar y adaptar. Si añades un
-fichero `.c` nuevo, añade su `.o` a la lista y su regla.
+Para que no tengas que averiguar opciones, **ya están hechas** y solo las pones justo después de `$(CC)`:
+`$(FLAGS_SERVIDOR)` y `$(FLAGS_CLIENTE)` (opciones de compilación y `-I` de cada lado), y `$(CABECERAS_SERVIDOR)`
+/ `$(CABECERAS_CLIENTE)` (tus `.h`, como dependencias). El servidor necesita además el simulador ya
+compilado (`$(GRAF_OBJ)`) y las librerías `$(SDL_LIBS) $(LDLIBS)`. Su forma es:
+
+```make
+aeropuerto: servidor/src/servidor.c servidor/src/lista.c ... $(CABECERAS_SERVIDOR) $(GRAF_OBJ)
+	$(CC) $(FLAGS_SERVIDOR) servidor/src/servidor.c servidor/src/lista.c ... $(GRAF_OBJ) $(SDL_LIBS) $(LDLIBS) -o aeropuerto
+```
+
+(la línea de la orden empieza con un **tabulador**). Es un `Makefile` simple: sin ficheros `.o` ni patrones.
+Si añades un `.c` nuevo, añade su ruta a la lista del objetivo y a la orden.
 
 Mientras no lo completes, `make` te avisa de lo que falta (`Falta completar el Makefile: no sé cómo
 construir 'aeropuerto'`).

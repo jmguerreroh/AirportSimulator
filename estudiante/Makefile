@@ -27,6 +27,15 @@ DEPFLAGS = -MMD -MP
 LDLIBS   = -pthread -lm
 BUILD    = build/make
 
+# Opciones de compilación YA HECHAS: úsalas tal cual en tus órdenes (van justo después de $(CC)).
+#   FLAGS_SERVIDOR: opciones para compilar los .c del servidor (incluye -Iservidor/include)
+#   FLAGS_CLIENTE:  opciones para compilar los .c del cliente  (incluye -Icliente/include)
+#   CABECERAS_SERVIDOR / CABECERAS_CLIENTE: tus .h (ponlas como dependencias para recompilar si cambian)
+FLAGS_SERVIDOR = $(CFLAGS_BASE) $(CFLAGS) -Iservidor/include
+FLAGS_CLIENTE  = $(CFLAGS_BASE) $(CFLAGS) -Icliente/include
+CABECERAS_SERVIDOR = $(wildcard servidor/include/*.h)
+CABECERAS_CLIENTE  = $(wildcard cliente/include/*.h)
+
 .DEFAULT_GOAL := all      # "make" a secas construye los dos ejecutables
 
 # ======================================================================================
@@ -111,27 +120,14 @@ valgrind: $(TEST_BIN)
 # ======================================================================================
 
 #=================== INICIO DE TU CODIGO ====================
-# TODO (estudiante): los ficheros objeto (.o) de tu servidor y de tu cliente
-# PISTA: hay un .o por cada .c: servidor/src/servidor.c -> $(BUILD)/servidor/servidor.o (y así con cada .c de servidor/src)
-# PISTA: SRV_OBJ lista los .o del servidor y CLI_OBJ los del cliente, separados por espacios
-#==================== FIN DE TU CODIGO =====================
-
-
-#=================== INICIO DE TU CODIGO ====================
-# TODO (estudiante): una regla para compilar cada .c (el .o depende de su .c)
-# PISTA: cada regla tiene esta forma (las líneas de la receta empiezan con un TABULADOR, no con espacios):
-# PISTA:     $(BUILD)/servidor/servidor.o: servidor/src/servidor.c
-# PISTA:             @mkdir -p $(BUILD)/servidor
-# PISTA:             $(CC) $(CFLAGS_BASE) $(DEPFLAGS) $(CFLAGS) -Iservidor/include -c $< -o $@
-# PISTA: escribe una regla igual para CADA .c de servidor/src y de cliente/src (el cliente usa -Icliente/include)
-#==================== FIN DE TU CODIGO =====================
-
-
-#=================== INICIO DE TU CODIGO ====================
-# TODO (estudiante): enlazar los ejecutables ./aeropuerto (servidor) y ./controlador (cliente)
-# PISTA: aeropuerto se construye con los .o del servidor ($(SRV_OBJ)), el simulador ($(GRAF_OBJ)) y las librerías $(SDL_LIBS) $(LDLIBS)
-# PISTA: controlador se construye con los .o del cliente ($(CLI_OBJ)) y las librerías $(LDLIBS) (el cliente no usa el simulador)
-# PISTA: receta de enlazado (con TABULADOR):  $(CC) $(LDFLAGS) -o aeropuerto $(SRV_OBJ) $(GRAF_OBJ) $(SDL_LIBS) $(LDLIBS)
+# TODO (estudiante): compilar y enlazar ./aeropuerto (servidor) y ./controlador (cliente)
+# PISTA: una regla por ejecutable. El objetivo depende de TUS .c y .h (escribe las rutas directamente)
+# PISTA: aeropuerto necesita además el simulador ya compilado: añade $(GRAF_OBJ) como dependencia
+# PISTA: la receta (con TABULADOR) es el $(CC) de siempre, con las opciones ya hechas justo después:
+# PISTA:     $(CC) $(FLAGS_SERVIDOR) ruta/a/tus/ficheros.c $(GRAF_OBJ) $(SDL_LIBS) $(LDLIBS) -o aeropuerto
+# PISTA: en el cliente usa $(FLAGS_CLIENTE), no uses $(GRAF_OBJ) ni $(SDL_LIBS), y termina en: $(LDLIBS) -o controlador
+# PISTA: ejemplo de la forma (adáptala a tus ficheros):
+# PISTA:     aeropuerto: servidor/src/servidor.c servidor/src/lista.c $(CABECERAS_SERVIDOR) $(GRAF_OBJ)
 #==================== FIN DE TU CODIGO =====================
 
 
