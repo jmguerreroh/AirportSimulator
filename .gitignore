@@ -1,0 +1,23 @@
+# Compilacion
+build/
+cmake-build-*/
+*.o
+
+# ===== MATERIAL DEL PROFESOR: NO SE SUBE AL REPOSITORIO =====
+# Solucion de referencia de cliente/ y servidor/. Si esta carpeta no existe (como en el repositorio
+# que ve el estudiantado), CMake compila automaticamente las plantillas de estudiante/.
+solucion_profesor/
+# Generador de plantillas, guia del profesor y documentacion interna de arquitectura
+profesor/
+
+# Registros generados al ejecutar los programas y binarios del Makefile
+*.log
+*.log.tmp
+/aeropuerto
+/controlador
+
+# Editores y sistema
+.vscode/
+.idea/
+*.user
+.DS_Store

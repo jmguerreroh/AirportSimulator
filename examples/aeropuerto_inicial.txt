@@ -1,0 +1,9 @@
+# Aeronaves iniciales del aeropuerto: una por línea.
+# Formato:  id origen destino modelo capacidad combustible
+# (textos sin espacios, igual que en ANADIR; las líneas vacías y las que empiezan por # se ignoran)
+105 Sevilla Roma A350 90 88.0
+101 Madrid Paris A320 80 75.4
+103 Barcelona Londres B737 65 54.2
+
+102 Valencia Lisboa A320 40 22.5
+104 Bilbao Oslo B777 55 61.0

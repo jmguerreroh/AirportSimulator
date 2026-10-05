@@ -1,0 +1,11 @@
+# config.mk - GENERADO por CMake. No lo edites: se regenera con cada 'cmake'.
+#
+# Dice al Makefile dónde está lo que CMake ha descargado y cómo usar SDL2.
+
+# Carpeta base/ descargada (aeronave, aeropuerto, simulador...)
+BASE := @AERO_BASE_DIR@
+
+# SDL2 (simulador gráfico): si lo descargó CMake, SDL_PREFIX es la carpeta donde se instaló;
+# vacío = SDL2 del sistema. HAY_SDL = si / no.
+SDL_PREFIX := @AERO_SDL_PREFIX@
+HAY_SDL := @AERO_HAY_SDL@
