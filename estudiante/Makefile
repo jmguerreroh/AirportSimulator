@@ -111,28 +111,27 @@ valgrind: $(TEST_BIN)
 # ======================================================================================
 
 #=================== INICIO DE TU CODIGO ====================
-# TODO (estudiante): variables con los ficheros de tu servidor y de tu cliente
-# PISTA: SRV_FUENTES: todos los .c de servidor/src/ (usa $(wildcard servidor/src/*.c))
-# PISTA: SRV_OBJ: lo mismo pero como objetos en $(BUILD)/servidor/NOMBRE.o (usa $(patsubst ...))
-# PISTA: haz igual con CLI_FUENTES y CLI_OBJ para cliente/src/
-# PISTA: usa esos mismos nombres (SRV_OBJ y CLI_OBJ) en las reglas de más abajo
+# TODO (estudiante): los ficheros objeto (.o) de tu servidor y de tu cliente
+# PISTA: hay un .o por cada .c: servidor/src/servidor.c -> $(BUILD)/servidor/servidor.o (y así con cada .c de servidor/src)
+# PISTA: SRV_OBJ lista los .o del servidor y CLI_OBJ los del cliente, separados por espacios
 #==================== FIN DE TU CODIGO =====================
 
 
 #=================== INICIO DE TU CODIGO ====================
-# TODO (estudiante): reglas para compilar los .c del servidor y los del cliente (un objeto por fichero)
-# PISTA: regla de patrón:  $(BUILD)/servidor/%.o: servidor/src/%.c
-# PISTA: receta: @mkdir -p $(dir $@)   y   $(CC) $(CFLAGS_BASE) $(DEPFLAGS) $(CFLAGS) -Iservidor/include -c $< -o $@
-# PISTA: para el cliente igual, pero con -Icliente/include (¡el servidor y el cliente tienen cada uno su comunicacion.h!)
-# PISTA: recuerda que las recetas empiezan con un TABULADOR, no con espacios
+# TODO (estudiante): una regla para compilar cada .c (el .o depende de su .c)
+# PISTA: cada regla tiene esta forma (las líneas de la receta empiezan con un TABULADOR, no con espacios):
+# PISTA:     $(BUILD)/servidor/servidor.o: servidor/src/servidor.c
+# PISTA:             @mkdir -p $(BUILD)/servidor
+# PISTA:             $(CC) $(CFLAGS_BASE) $(DEPFLAGS) $(CFLAGS) -Iservidor/include -c $< -o $@
+# PISTA: escribe una regla igual para CADA .c de servidor/src y de cliente/src (el cliente usa -Icliente/include)
 #==================== FIN DE TU CODIGO =====================
 
 
 #=================== INICIO DE TU CODIGO ====================
-# TODO (estudiante): enlazar el ejecutable ./aeropuerto (servidor) y ./controlador (cliente)
-# PISTA: aeropuerto necesita: $(SRV_OBJ), $(GRAF_OBJ) (el simulador) y las librerías $(SDL_LIBS) $(LDLIBS)
-# PISTA: controlador necesita: $(CLI_OBJ) y $(LDLIBS) (el cliente no usa el simulador)
-# PISTA: receta de enlazado:  $(CC) $(LDFLAGS) -o $@ $^ ...librerías...   ($^ = todos los prerrequisitos)
+# TODO (estudiante): enlazar los ejecutables ./aeropuerto (servidor) y ./controlador (cliente)
+# PISTA: aeropuerto se construye con los .o del servidor ($(SRV_OBJ)), el simulador ($(GRAF_OBJ)) y las librerías $(SDL_LIBS) $(LDLIBS)
+# PISTA: controlador se construye con los .o del cliente ($(CLI_OBJ)) y las librerías $(LDLIBS) (el cliente no usa el simulador)
+# PISTA: receta de enlazado (con TABULADOR):  $(CC) $(LDFLAGS) -o aeropuerto $(SRV_OBJ) $(GRAF_OBJ) $(SDL_LIBS) $(LDLIBS)
 #==================== FIN DE TU CODIGO =====================
 
 

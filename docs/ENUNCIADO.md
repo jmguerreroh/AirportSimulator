@@ -126,12 +126,16 @@ sudo apt install build-essential cmake git pkg-config libsdl2-dev netcat-openbsd
 El `Makefile` trae hecho todo menos **la parte tuya, que está al final del fichero** (busca `TODO
 (estudiante)`); lo de arriba (simulador gráfico, `make tests`, `make prueba`...) no hace falta tocarlo:
 
-1. variables con los ficheros de tu servidor y de tu cliente (`SRV_FUENTES`, `SRV_OBJ`,
-   `CLI_FUENTES`, `CLI_OBJ`);
-2. reglas para compilar cada `.c` de `servidor/src` y de `cliente/src` a un objeto (cada lado con su
-   propio `-I...`);
+1. dos variables con los ficheros objeto (`.o`) de tu servidor (`SRV_OBJ`) y de tu cliente (`CLI_OBJ`),
+   uno por cada `.c`;
+2. **una regla por cada `.c`**: «este `.o` depende de este `.c`» y la orden que lo compila (cada lado con
+   su propio `-I...`);
 3. el enlazado de `./aeropuerto` y de `./controlador`;
 4. el objetivo `clean`.
+
+Es un `Makefile` simple: **listas de ficheros y una regla explícita por cada `.c`**, sin patrones ni
+funciones de `make`. Dentro de la zona hay un ejemplo de regla para copiar y adaptar. Si añades un
+fichero `.c` nuevo, añade su `.o` a la lista y su regla.
 
 Mientras no lo completes, `make` te avisa de lo que falta (`Falta completar el Makefile: no sé cómo
 construir 'aeropuerto'`).
