@@ -97,7 +97,6 @@ MiAeropuerto/
 ├── CMakeLists.txt
 ├── Makefile                     ← A COMPLETAR POR TI (el simulador ya está hecho)
 ├── config.mk                    ← lo regenera CMake: dónde está lo descargado y cómo usar SDL2
-├── ENUNCIADO.md                 ← este documento
 ├── cliente/
 │   ├── include/   comunicacion.h  constantes.h
 │   └── src/       cliente.c  comunicacion.c
@@ -105,7 +104,7 @@ MiAeropuerto/
 │   ├── include/   estructuras.h  simulador.h  comunicacion.h  lista.h
 │   └── src/       servidor.c  lista.c  comunicacion.c
 ├── tests/                       ← comprobaciones y pruebas de sistema
-├── docs/                        ← PROTOCOLO.md (los mensajes), API.md
+├── docs/                        ← ENUNCIADO.md (este documento), PROTOCOLO.md (los mensajes), API.md
 └── ejemplos/                    ← aeropuerto_inicial.txt (fichero de ejemplo) y rellenar.sh
 ```
 
@@ -198,7 +197,7 @@ lo comprueba.
   (`servidor/include/estructuras.h`).
 * El **simulador gráfico**: tres funciones (`iniciar_simulador`, `actualizar_simulador`,
   `detener_simulador`). Solo tienes que llamar a `actualizar_simulador(&lista)` después de cada
-  petición ([docs/API.md](docs/API.md)).
+  petición ([docs/API.md](API.md)).
 * En el `main` del servidor: que **Ctrl+C** pida cerrar (el manejador de la señal) y cerrar la ventana
   del simulador al terminar (`detener_simulador`). **Todo lo demás del `main` lo escribes tú**,
   empezando por los argumentos.
@@ -220,7 +219,7 @@ lo comprueba.
 
 ## 5. Los mensajes
 
-Todo el detalle está en **[docs/PROTOCOLO.md](docs/PROTOCOLO.md)**. Resumen:
+Todo el detalle está en **[docs/PROTOCOLO.md](PROTOCOLO.md)**. Resumen:
 
 **Petición** (una línea terminada en `\n`, palabras separadas por espacios, textos sin espacios):
 
@@ -322,7 +321,7 @@ en otro caso            -> "operación desconocida."
 ### 6.4 La respuesta
 
 Para **toda** petición, válida o no, el servidor envía el resultado **y el estado actual**, con el
-formato exacto de [docs/PROTOCOLO.md](docs/PROTOCOLO.md): la línea `OK: ...`/`ERROR: ...`, la línea
+formato exacto de [docs/PROTOCOLO.md](PROTOCOLO.md): la línea `OK: ...`/`ERROR: ...`, la línea
 `--- ESTADO ACTUAL: n aeronaves ---` y una línea por aeronave en el orden de la lista. Puedes enviar
 línea a línea con `enviar_texto()` (sin necesidad de un buffer grande). Al terminar, el servidor
 cierra la conexión.
@@ -366,7 +365,7 @@ El cliente puede validar, pero **el servidor valida siempre**:
 | Orden | una de las 6 | `operación desconocida.` |
 | Textos | caben en su campo (nunca desbordar el array) | — |
 
-Los textos exactos de todos los mensajes están en [docs/PROTOCOLO.md](docs/PROTOCOLO.md).
+Los textos exactos de todos los mensajes están en [docs/PROTOCOLO.md](PROTOCOLO.md).
 
 ### 6.6 La lista doblemente enlazada ★
 
@@ -474,7 +473,7 @@ y las opciones los programas tú** (mostrando con `printf` y leyendo con `scanf`
 
 Para cada opción: **pedir los datos al usuario** (volviendo a preguntar si un número está mal escrito,
 y aceptando como texto una sola palabra que quepa en su campo) → **construir la petición** con `snprintf` (formato en
-[docs/PROTOCOLO.md](docs/PROTOCOLO.md)) → **hacer la petición** (tu función de cliente):
+[docs/PROTOCOLO.md](PROTOCOLO.md)) → **hacer la petición** (tu función de cliente):
 `socket()`, `connect()`, `enviar_texto()`, `recibir_hasta_cierre()`, mostrar la respuesta por
 pantalla y `close()` → volver al menú.
 

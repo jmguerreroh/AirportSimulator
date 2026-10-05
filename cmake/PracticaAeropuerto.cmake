@@ -16,7 +16,7 @@
 #        servidor/include, servidor/src     plantillas del aeropuerto
 #        Makefile                           con la infraestructura hecha y TODO para cliente y servidor
 #        tests/                             tests y pruebas de sistema
-#        ENUNCIADO.md, docs/, ejemplos/     documentacion y datos de ejemplo
+#        docs/ (ENUNCIADO, PROTOCOLO, API), ejemplos/     documentacion y datos de ejemplo
 #   3. Regenera config.mk (lo usa el Makefile): ruta de lo descargado y flags de SDL2.
 #   Despues:  make
 
@@ -49,7 +49,7 @@ function(_aeropuerto_practica)
       aeropuerto_copiar_si_falta("${raiz}/estudiante/${rel}" "${dir}/${rel}")
     endif()
   endforeach()
-  aeropuerto_copiar_si_falta("${raiz}/docs/ENUNCIADO.md" "${dir}/ENUNCIADO.md")
+  aeropuerto_copiar_si_falta("${raiz}/docs/ENUNCIADO.md" "${dir}/docs/ENUNCIADO.md")
   aeropuerto_copiar_si_falta("${raiz}/docs/PROTOCOLO.md" "${dir}/docs/PROTOCOLO.md")
   aeropuerto_copiar_si_falta("${raiz}/docs/API.md" "${dir}/docs/API.md")
   aeropuerto_copiar_si_falta("${raiz}/examples/aeropuerto_inicial.txt"

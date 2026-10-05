@@ -53,7 +53,6 @@ MiAeropuerto/
 ├── CMakeLists.txt
 ├── Makefile                  ← A COMPLETAR (el simulador ya está hecho; tú: servidor/ y cliente/)
 ├── config.mk                 ← lo regenera CMake (ruta de lo descargado, SDL2)
-├── ENUNCIADO.md
 ├── cliente/
 │   ├── include/   comunicacion.h  constantes.h
 │   └── src/       cliente.c  comunicacion.c
@@ -61,7 +60,7 @@ MiAeropuerto/
 │   ├── include/   estructuras.h  simulador.h  comunicacion.h  lista.h
 │   └── src/       servidor.c  lista.c  comunicacion.c
 ├── tests/                    ← comprobaciones y pruebas de sistema
-├── docs/                     ← PROTOCOLO.md, API.md
+├── docs/                     ← ENUNCIADO.md, PROTOCOLO.md, API.md
 └── ejemplos/                 ← aeropuerto_inicial.txt y rellenar.sh
 ```
 
