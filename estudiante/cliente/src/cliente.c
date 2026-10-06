@@ -50,7 +50,7 @@
 /* TODO (estudiante): implementar. */
 /* PISTA: aquí van TUS funciones: la que muestra el mensaje de uso (ver docs/ENUNCIADO.md, sección 3) y la que hace UNA petición completa: */
 /* PISTA: tu función de hacer una petición hace, por este orden: */
-/* PISTA: copia el BLOQUE C de socket_c/client_peticiones.c y adáptalo; lo siguiente es lo que hace: */
+/* PISTA: copia el PASO C de socket_c/client_peticiones.c y adáptalo; lo siguiente es lo que hace: */
 /* PISTA:   1. socket(AF_INET, SOCK_STREAM, 0) */
 /* PISTA:   2. rellena una struct sockaddr_in: sin_family = AF_INET, sin_port = htons(puerto) y la IP con inet_pton() */
 /* PISTA:   3. connect() al servidor; si falla, avisa (¿está el servidor en marcha?), close(fd) y devuelve un error */

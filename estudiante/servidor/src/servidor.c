@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
     /*================== INICIO DE TU CODIGO ==================*/
     /* TODO (estudiante): implementar. */
     /* PISTA: PASO: crear el socket de escucha (como server.c de socket_c) */
-    /* PISTA: copia el BLOQUE A de socket_c/server_peticiones.c y adapta lo que marca */
+    /* PISTA: copia el PASO A de socket_c/server_peticiones.c y adapta lo que marca */
     /* PISTA: socket(AF_INET, SOCK_STREAM, 0); setsockopt(SO_REUSEADDR); bind() al puerto; listen() */
     /* PISTA: struct sockaddr_in: sin_family = AF_INET, sin_addr.s_addr = htonl(INADDR_ANY), sin_port = htons(puerto) */
     /* PISTA: comprueba el resultado de CADA llamada; si falla, muestra el motivo (perror) y termina */
@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
     /*================== INICIO DE TU CODIGO ==================*/
     /* TODO (estudiante): implementar. */
     /* PISTA: PASO: bucle principal: aceptar, leer la petición, atenderla, responder y cerrar */
-    /* PISTA: copia el BLOQUE B de socket_c/server_peticiones.c: ya trae accept, IP:puerto y recibir_linea; tú pones lo del hueco */
+    /* PISTA: copia el PASO B de socket_c/server_peticiones.c: ya trae accept, IP:puerto y recibir_linea; tú pones lo del hueco */
     /* PISTA: repite mientras no haya que cerrar (g_parar), y en cada vuelta, por este orden: */
     /* PISTA:   1. accept()           -> socket del cliente (y su IP y puerto, para el registro) */
     /* PISTA:   2. recibir_linea()    -> la petición; si devuelve -1: apúntalo en el registro, close() y sigue */
