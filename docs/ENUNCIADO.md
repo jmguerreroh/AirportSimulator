@@ -13,7 +13,7 @@ tiempo real y deja constancia de lo ocurrido en un fichero `.log`.
 
 * Crear un servidor y un cliente con **sockets TCP**: `socket`, `bind`, `listen`, `accept`,
   `connect`, `read`, `write`, `close`, siguiendo el ejemplo
-  <https://github.com/jmguerreroh/socket_c>.
+  [socket_c](https://github.com/jmguerreroh/socket_c).
 * Entender que TCP es un **flujo de bytes** y enviar/recibir mensajes completos.
 * Programar una **lista doblemente enlazada**: crear nodos (`malloc`), enlazarlos, ordenarlos,
   eliminarlos y mantener los punteros.
@@ -67,7 +67,14 @@ No hay hilos, ni mutex, ni lista de clientes que gestionar.
 
 ## 3. Cómo empezar
 
-Crea una carpeta vacía con **un solo fichero**, `CMakeLists.txt`:
+Crea una carpeta nueva para tu solución. Puede estar en cualquier lugar. Por ejemplo:
+
+```bash
+mkdir MiAeropuerto
+cd MiAeropuerto
+```
+
+Dentro de esa carpeta, crea un único fichero llamado `CMakeLists.txt`:
 
 ```cmake
 cmake_minimum_required(VERSION 3.16)
@@ -82,15 +89,16 @@ FetchContent_MakeAvailable(Aeropuerto)
 aeropuerto_practica()
 ```
 
-Y ejecuta **una sola vez**:
+Desde esa misma carpeta (`MiAeropuerto/`), ejecuta **una sola vez**:
 
 ```bash
-cmake -S . -B build          # descarga todo lo necesario y CREA TUS CARPETAS
+cmake -S . -B build          # descarga todo lo necesario y crea las plantillas
 ```
 
-**CMake solo descarga y prepara; no compila tu código.** Descarga el simulador gráfico y **SDL2** si
-no lo tienes instalado (lo compila él solo, la primera vez tarda un minuto) y **crea en tu carpeta**
-las plantillas a completar. Después **completas el `Makefile`** y compilas con `make`:
+`-S .` indica que el código fuente está en la carpeta actual y `-B build` indica dónde guardar los ficheros
+internos de CMake. **CMake solo descarga y prepara; no compila tu código.** Descarga el simulador gráfico y
+**SDL2** si no lo tienes instalado (lo compila él solo, la primera vez tarda un minuto) y crea en
+`MiAeropuerto/` las plantillas iniciales: `Makefile`, `cliente/`, `servidor/`, `tests/`, `docs/` y `ejemplos/`.
 
 ```
 MiAeropuerto/
@@ -174,7 +182,7 @@ sh ejemplos/rellenar.sh 5000 10        # añade 10 aeronaves de ejemplo (para ve
 tail -f aeropuerto.log                 # para ver lo que va pasando en el servidor
 ```
 
-### Los argumentos ★
+### Los argumentos
 
 **Los argumentos de los dos programas los lees y validas tú** (con `argc` y `argv`).
 
@@ -275,13 +283,13 @@ troceo. Para construirla, `snprintf()`.
 2. **Repetir hasta que haya que cerrar:**
    1. `accept()` → socket del cliente **y su IP y puerto** (para el registro);
    2. leer la petición con tu `recibir_linea()`;
-   3. **llamar a la función de la opción** que pide (ver 6.3);
-   4. enviar la respuesta con tu `enviar_texto()` (ver 6.4);
+   3. **llamar a la función de la operación** que pide (ver 6.4);
+   4. enviar la respuesta con tu `enviar_texto()` (ver 6.5);
    5. `actualizar_simulador(&lista)`;
    6. `close()` del socket del cliente.
-3. **Cerrar ordenadamente** (ver 6.8).
+3. **Cerrar ordenadamente** (ver 6.9).
 
-### 6.2 Fichero inicial ★
+### 6.2 Fichero inicial
 
 Si al arrancar se indica un **fichero de texto** como argumento:
 
@@ -316,11 +324,23 @@ palabra `ANADIR`:
 * El orden en la lista es el del fichero (si no está ordenado por ID, se verá `SIN ORDENAR` hasta
   que un cliente envíe `ORDENAR`).
 
-### 6.3 Una función por cada opción ★
+### 6.3 Operaciones del servidor
+
+El servidor acepta seis operaciones. Cada una tiene una responsabilidad concreta:
+
+| Operación | Función |
+|---|---|
+| `ANADIR` | valida y añade una aeronave al final de la lista |
+| `ELIMINAR` | busca una aeronave por ID y la elimina |
+| `MODIFICAR` | cambia uno de los datos de una aeronave existente |
+| `ORDENAR` | ordena la lista por ID ascendente |
+| `MOSTRAR` | devuelve el estado actual sin modificarlo |
+| `SALIR` | responde y solicita el cierre ordenado del servidor |
+
+### 6.4 Una función por cada operación
 
 Al recibir una petición, el servidor mira su **primera palabra** y llama a **una función distinta
-por cada opción**: una para añadir, otra para eliminar, otra para modificar, otra para ordenar,
-otra para mostrar y otra para salir. **Las diseñas tú** (nombres, parámetros y qué devuelven).
+por cada operación**. Diseñas tú los nombres, parámetros y valores de retorno de esas funciones.
 Cada una trabaja con la lista y deja el texto del resultado (por ejemplo,
 `Aeronave 103 añadida correctamente.` o `ya existe una aeronave con ID 103.`).
 
@@ -334,7 +354,7 @@ si orden es "ELIMINAR"  -> tu función de eliminar
 en otro caso            -> "operación desconocida."
 ```
 
-### 6.4 La respuesta
+### 6.5 La respuesta
 
 Para **toda** petición, válida o no, el servidor envía el resultado **y el estado actual**, con el
 formato exacto de [docs/PROTOCOLO.md](PROTOCOLO.md): la línea `OK: ...`/`ERROR: ...`, la línea
@@ -366,7 +386,7 @@ Orden de una petición completa, vista desde los dos lados:
  6. close()                               6. close()   ← el cliente deja de leer cuando el servidor cierra
 ```
 
-### 6.5 Validación (el servidor es la autoridad)
+### 6.6 Validación (el servidor es la autoridad)
 
 El cliente puede validar, pero **el servidor valida siempre**:
 
@@ -383,7 +403,7 @@ El cliente puede validar, pero **el servidor valida siempre**:
 
 Los textos exactos de todos los mensajes están en [docs/PROTOCOLO.md](PROTOCOLO.md).
 
-### 6.6 La lista doblemente enlazada ★
+### 6.7 La lista doblemente enlazada
 
 Las estructuras ya están en `estructuras.h` (**no las modifiques**):
 
@@ -413,7 +433,7 @@ permitir:
 Mantén `cantidad` al día. La ventana gráfica **recorre tu lista**: si tus punteros están mal, lo
 verás.
 
-### 6.7 El simulador gráfico
+### 6.8 El simulador gráfico
 
 Al arrancar, **tu `main`** llama a `iniciar_simulador()` (si no hay entorno gráfico, avisa y sigue
 sin ventana). Después llamas a
@@ -421,7 +441,7 @@ sin ventana). Después llamas a
 aeronave, **en el orden de tu lista**, y al ordenar se recolocan. Con la ventana cerrada, o sin entorno
 gráfico, no hace nada y el servidor sigue igual.
 
-### 6.8 Cierre del servidor y registro ★
+### 6.9 Cierre del servidor y registro
 
 El servidor termina por **dos** motivos:
 
@@ -457,7 +477,7 @@ deba a un cliente (petición, respuesta, conexión descartada) empieza por `[IP:
 
 *(Opcional: empieza cada línea con la fecha y la hora, con `time()`, `localtime()` y `strftime()`.)*
 
-### 6.9 Gestión de memoria ★
+### 6.10 Gestión de memoria
 
 **La memoria que reservas es tuya y tienes que liberarla.** En el servidor es, sobre todo, la de los
 **nodos de la lista** (`malloc` al añadir, `free` al eliminar y al cerrar) y el fichero del registro
