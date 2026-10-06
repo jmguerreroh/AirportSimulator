@@ -117,4 +117,4 @@ examples/         aeropuerto_inicial.txt (fichero de ejemplo) y rellenar.sh
   copia: una casilla por aeronave, en el orden de la lista.
 * Ctrl+C **o** una petición `SALIR` cierran el servidor de forma ordenada (ventana, lista, sockets, log).
 
-API proporcionada: [docs/API.md](docs/API.md). Licencia: [MIT](LICENSE).
+API proporcionada: [docs/API.md](docs/API.md). Ejemplos de sockets que funcionan: [socket_c](https://github.com/jmguerreroh/socket_c) (`server_peticiones.c` y `client_peticiones.c`). Licencia: [MIT](LICENSE).

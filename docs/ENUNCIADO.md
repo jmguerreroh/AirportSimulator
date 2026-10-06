@@ -262,6 +262,11 @@ troceo. Para construirla, `snprintf()`.
 
 ### 6.1 Pasos (como `server.c` de `socket_c`)
 
+> **Sockets sin sufrir:** el repositorio [socket_c](https://github.com/jmguerreroh/socket_c) incluye
+> `server_peticiones.c` y `client_peticiones.c`: un servidor y un cliente que **compilan y funcionan** con una
+> petición por conexión, como en esta práctica. Cada parte lleva una etiqueta que dice en qué fichero de tu
+> práctica va (`comunicacion.c`, `servidor.c`, `cliente.c`): cópiala y adáptala.
+
 0. **Leer y validar los argumentos**, **preparar la lista** (vacía), abrir el registro y **arrancar el simulador**. Si se ha indicado un fichero, **cargarlo**
    (ver 6.2).
 1. **Crear el socket de escucha:** `socket()`, `setsockopt(SO_REUSEADDR)`, `bind()` y `listen()`.
@@ -611,6 +616,9 @@ Orden recomendado antes de entregar: `make tests` → `make prueba` → `make me
 ---
 
 ## 12. Relación con el repositorio de referencia (`socket_c`)
+
+En `socket_c` están `server_peticiones.c` y `client_peticiones.c`, la variante de una petición por conexión
+(`make` los compila y se prueban entre sí); sus bloques están etiquetados con dónde va cada parte en tu práctica.
 
 | `socket_c` | Esta práctica |
 |---|---|
