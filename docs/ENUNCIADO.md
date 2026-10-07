@@ -16,7 +16,8 @@ Servidor y cliente en **C** que se comunican por **TCP**. El servidor guarda las
 
 ## 1. Objetivos
 
-* Crear un servidor y un cliente con **sockets TCP**: `socket`, `bind`, `listen`, `accept`, `connect`, `read`, `write`, `close`, siguiendo el ejemplo <https://github.com/jmguerreroh/socket_c>.
+* Crear un servidor y un cliente con **sockets TCP**: `socket`, `bind`, `listen`, `accept`,
+  `connect`, `read`, `write`, `close`, siguiendo el ejemplo [socket_c](https://github.com/jmguerreroh/socket_c).
 * Entender que TCP es un **flujo de bytes** y enviar/recibir mensajes completos.
 * Programar una **lista doblemente enlazada**: crear nodos (`malloc`), enlazarlos, ordenarlos, eliminarlos y mantener los punteros.
 * Hacer que el servidor **llame a una función distinta por cada opción** de la petición.
@@ -72,7 +73,14 @@ No hay hilos, ni mutex, ni lista de clientes que gestionar.
 
 ## 3. Cómo empezar
 
-Crea una carpeta vacía con **un solo fichero**, `CMakeLists.txt`:
+Crea una carpeta nueva para tu solución. Puede estar en cualquier lugar. Por ejemplo:
+
+```bash
+mkdir MiAeropuerto
+cd MiAeropuerto
+```
+
+Dentro de esa carpeta, crea un único fichero llamado `CMakeLists.txt`:
 
 ```cmake
 cmake_minimum_required(VERSION 3.16)
@@ -87,13 +95,13 @@ FetchContent_MakeAvailable(Aeropuerto)
 aeropuerto_practica()
 ```
 
-Y ejecuta **una sola vez**:
+Desde esa misma carpeta (`MiAeropuerto/`), ejecuta **una sola vez**:
 
 ```bash
-cmake -S . -B build          # descarga todo lo necesario y CREA TUS CARPETAS
+cmake -S . -B build          # descarga todo lo necesario y crea las plantillas
 ```
 
-**CMake solo descarga y prepara; no compila tu código.** Descarga el simulador gráfico y **SDL2** si no lo tienes instalado (lo compila él solo, la primera vez tarda un minuto) y **crea en tu carpeta** las plantillas a completar. Después **completas el `Makefile`** y compilas con `make`:
+**CMake solo descarga y prepara, no compila tu código.** Descarga el simulador gráfico y **SDL2** si no lo tienes instalado (lo compila él solo, la primera vez tarda un minuto) y **crea en tu carpeta** las plantillas a completar. Después **completas el `Makefile`** y compilas con `make`:
 
 ```
 MiAeropuerto/
@@ -111,7 +119,7 @@ MiAeropuerto/
 └── ejemplos/  ← aeropuerto_inicial.txt (fichero de ejemplo) y rellenar.sh
 ```
 
-Esos ficheros son **tuyos**: CMake nunca los vuelve a tocar (solo regenera `config.mk`, que no debes editar). Tu código va **entre las líneas** `/*====== INICIO DE TU CODIGO ======*/` y `/*====== FIN DE TU CODIGO ======*/` (en el `Makefile`, `#====== INICIO ... ======`): fuera de ellas no tienes que tocar nada. Dentro hay un `TODO (estudiante)` y `PISTA:` con ideas; puedes borrar esas líneas y la línea de ejemplo que deja el código compilando, y escribir lo tuyo.
+Esos ficheros son **tuyos**: CMake nunca los vuelve a tocar (solo regenera `config.mk`, que no debes editar). Tu código va **entre las líneas** `/*====== INICIO DE TU CODIGO ======*/` y `/*====== FIN DE TU CODIGO ======*/` (en el `Makefile`, `#====== INICIO ... ======`): fuera de ellas no tienes que tocar nada. Dentro hay un `TODO (estudiante)` y `PISTA:` con ideas. Puedes borrar esas líneas y la línea de ejemplo que deja el código compilando, y escribir lo tuyo.
 
 Requisitos: compilador de C11, CMake ≥ 3.16, `git`, `make`, `pkg-config`. Recomendable: `libsdl2-dev` (si no está, CMake descarga SDL2), `netcat` (`nc`) y `valgrind`.
 
@@ -122,10 +130,10 @@ sudo apt install build-essential cmake git pkg-config \
 
 ### El Makefile (lo completas tú)
 
-El `Makefile` trae hecho todo menos **la parte tuya, que está al final del fichero** (busca `TODO (estudiante)`); lo de arriba (simulador gráfico, `make tests`, `make prueba`...) no hace falta tocarlo:
+El `Makefile` trae hecho todo menos **la parte tuya, que está al final del fichero** (busca `TODO (estudiante)`). Lo de arriba (simulador gráfico, `make tests`, `make prueba`...) no hace falta tocarlo. Tú escribes:
 
-1. **una regla por ejecutable** (`aeropuerto` y `controlador`): el objetivo depende de **tus ficheros `.c`** (escribes las rutas directamente) y la orden es el `$(CC)` de siempre;
-2. el objetivo `clean`.
+1. **Una regla por ejecutable** (`aeropuerto` y `controlador`): el objetivo depende de **tus ficheros `.c`** (escribes las rutas directamente) y la orden es el `$(CC)` de siempre.
+2. **El objetivo `clean`**.
 
 Para que no tengas que averiguar opciones, **ya están hechas** y solo las pones justo después de `$(CC)`: `$(FLAGS_SERVIDOR)` y `$(FLAGS_CLIENTE)` (opciones de compilación y `-I` de cada lado), y `$(CABECERAS_SERVIDOR)` / `$(CABECERAS_CLIENTE)` (tus `.h`, como dependencias). El servidor necesita además el simulador ya compilado (`$(GRAF_OBJ)`) y las librerías `$(SDL_LIBS) $(LDLIBS)`. Su forma es:
 
@@ -135,7 +143,7 @@ aeropuerto: lista_archivos.c ...  $(CABECERAS_SERVIDOR) $(GRAF_OBJ)
             $(GRAF_OBJ) $(SDL_LIBS) $(LDLIBS) -o aeropuerto
 ```
 
-(la línea de la orden empieza con un **tabulador**; la `\` al final de una línea indica que la orden continúa en la siguiente). Es un `Makefile` simple: sin ficheros `.o` ni patrones. Si añades un `.c` nuevo, añade su ruta a la lista del objetivo y a la orden.
+La línea de la orden empieza con un **tabulador**, y la `\` al final de una línea indica que la orden continúa en la siguiente. Es un `Makefile` simple: sin ficheros `.o` ni patrones. Si añades un `.c` nuevo, añade su ruta a la lista del objetivo y a la orden.
 
 Mientras no lo completes, `make` te avisa de lo que falta (`Falta completar el Makefile: no sé cómo construir 'aeropuerto'`).
 
@@ -168,14 +176,14 @@ sh ejemplos/rellenar.sh 5000 10
 tail -f aeropuerto.log          
 ```
 
-### Los argumentos ★
+### Los argumentos
 
 **Los argumentos de los dos programas los lees y validas tú** (con `argc` y `argv`).
 
 | Programa | Argumentos | Reglas |
 |---|---|---|
-| `./aeropuerto` | `PUERTO [FICHERO]` | el puerto es obligatorio y debe estar entre 1 y 65535; el fichero es opcional y, si se da, debe poder abrirse; ni más argumentos |
-| `./controlador` | `IP PUERTO` | exactamente dos argumentos; la IP debe ser una dirección IPv4 válida (`inet_pton`) y el puerto estar entre 1 y 65535 |
+| `./aeropuerto` | `PUERTO [FICHERO]` | Puerto obligatorio, entre 1 y 65535. Fichero opcional: si se da, debe poder abrirse. No admite más argumentos |
+| `./controlador` | `IP PUERTO` | Exactamente dos argumentos. IP: dirección IPv4 válida (`inet_pton`). Puerto: entre 1 y 65535 |
 
 Si faltan argumentos, son incorrectos (puerto no numérico o fuera de rango, IP inválida, opción de más) o el fichero no se puede abrir, el programa muestra por la **salida de error** (`stderr`) un mensaje y termina con un **código distinto de 0** (`EXIT_FAILURE`), sin arrancar. Para los argumentos mal escritos, el mensaje de uso es:
 
@@ -208,7 +216,7 @@ Uso:
 | `cliente/src/comunicacion.c` | `enviar_texto()` y `recibir_hasta_cierre()` |
 | `servidor/src/lista.c` | tu lista doblemente enlazada (sección 6) |
 | `servidor/src/servidor.c` | **leer y validar los argumentos**, arrancar el simulador, el socket del servidor, el bucle, **una función por cada opción**, la respuesta, **la carga del fichero inicial**, el registro y el cierre |
-| `cliente/src/cliente.c` | **leer y validar los argumentos, el menú, la lectura de los datos del teclado y las opciones**; construir cada petición, conectar, enviar, recibir y mostrar |
+| `cliente/src/cliente.c` | **leer y validar los argumentos, el menú, la lectura de los datos del teclado y las opciones**, y construir cada petición, conectar, enviar, recibir y mostrar |
 | `Makefile` | la parte de `servidor/` y `cliente/` |
 
 ---
@@ -228,7 +236,7 @@ MOSTRAR
 SALIR
 ```
 
-**Respuesta** (el servidor la envía y **cierra la conexión**; el cliente la lee hasta que cierre y la muestra tal cual):
+**Respuesta** (el servidor la envía y **cierra la conexión**, y el cliente la lee hasta ese cierre y la muestra tal cual):
 
 ```text
 OK: Aeronave 103 añadida correctamente.
@@ -240,7 +248,7 @@ ID 103 | Madrid -> Paris | A320 | 75% | 62.5
 
 Si la petición falla, la primera línea es `ERROR: ...` (por ejemplo, `ERROR: ya existe una aeronave con ID 103.`) y **el estado se envía igual**.
 
-Para leer los datos de una petición te basta `sscanf()`; no tienes que usar ninguna función de troceo. Para construir un texto, `snprintf()`. Consulta cómo funcionan en el manual (`man sscanf`, `man snprintf`) o en cppreference.com, y fíjate sobre todo en lo que devuelve cada una: `sscanf()` dice cuántos campos ha leído, y así sabes si la petición está completa.
+Para leer los datos de una petición te basta `sscanf()`, sin ninguna función de troceo. Para construir un texto, `snprintf()`. Consulta cómo funcionan en el manual (`man sscanf`, `man snprintf`) o en cppreference.com, y fíjate sobre todo en lo que devuelve cada una: `sscanf()` dice cuántos campos ha leído, y así sabes si la petición está completa.
 
 ---
 
@@ -253,18 +261,15 @@ Para leer los datos de una petición te basta `sscanf()`; no tienes que usar nin
 0. **Leer y validar los argumentos**, **preparar la lista** (vacía), abrir el registro y **arrancar el simulador**. Si se ha indicado un fichero, **cargarlo** (ver 6.2).
 1. **Crear el socket de escucha:** `socket()`, `setsockopt(SO_REUSEADDR)`, `bind()` y `listen()`. Comprueba el resultado de cada llamada.
 2. **Repetir hasta que haya que cerrar:**
-   1. `accept()` → socket del cliente **y su IP y puerto** (para el registro);
-   2. leer la petición con tu `recibir_linea()`;
-   3. **llamar a la función de la opción** que pide (ver 6.3);
-   4. enviar la respuesta con tu `enviar_texto()` (ver 6.4);
-   5. `actualizar_simulador(&lista)`;
+   1. `accept()` → socket del cliente **y su IP y puerto** (para el registro).
+   2. Leer la petición con tu `recibir_linea()`.
+   3. **Llamar a la función de la operación** que pide (ver 6.4).
+   4. Enviar la respuesta con tu `enviar_texto()` (ver 6.5).
+   5. `actualizar_simulador(&lista)`.
    6. `close()` del socket del cliente.
-3. **Cerrar ordenadamente** (ver 6.8).
+3. **Cerrar ordenadamente** (ver 6.9).
 
-<br>
-<br>
-
-### 6.2 Fichero inicial ★
+### 6.2 Fichero inicial
 
 Si al arrancar se indica un **fichero de texto** como argumento:
 
@@ -272,7 +277,7 @@ Si al arrancar se indica un **fichero de texto** como argumento:
 ./aeropuerto 5000 ejemplos/aeropuerto_inicial.txt
 ```
 
-el servidor tiene que **cargar esas aeronaves en la lista** antes de empezar a atender peticiones (y refrescar el simulador, que las mostrará desde el primer momento). Al leer los argumentos debes comprobar que el fichero se puede abrir (si no, el programa termina con un error); **leerlo (con `fscanf`) y cargarlo también lo programas tú**.
+el servidor tiene que **cargar esas aeronaves en la lista** antes de empezar a atender peticiones (y refrescar el simulador, que las mostrará desde el primer momento). Al leer los argumentos debes comprobar que el fichero se puede abrir (si no, el programa termina con un error). **Leerlo (con `fscanf`) y cargarlo también lo programas tú**.
 
 **Formato:** una aeronave por línea, con los mismos datos y reglas que `ANADIR` pero **sin** la palabra `ANADIR`:
 
@@ -285,12 +290,27 @@ el servidor tiene que **cargar esas aeronaves en la lista** antes de empezar a a
 ```
 
 * Las líneas **vacías** y las que empiezan por **`#`** se ignoran.
-* Cada aeronave pasa por las **mismas validaciones** que al añadirla por la red (ID positivo y no repetido, capacidad de 0 a 100, combustible ≥ 0, textos que caben...). Un consejo: ya tienes una función para añadir; reutilízala.
+* Cada aeronave pasa por las **mismas validaciones** que al añadirla por la red (ID positivo y no repetido, capacidad de 0 a 100, combustible ≥ 0, textos que caben...). Un consejo: reutiliza la función de añadir que ya tienes.
 * Una **línea incorrecta no detiene la carga**: se salta y se apunta en el registro (por ejemplo `Línea 4 del fichero ignorada: ya existe una aeronave con ID 101.`).
 * Al terminar, se muestra y se apunta en el registro cuántas se han cargado: `Cargadas 3 aeronaves desde ejemplos/aeropuerto_inicial.txt`.
 * El orden en la lista es el del fichero (si no está ordenado por ID, la ventana mostrará `SIN ORDENAR` hasta que un cliente envíe `ORDENAR`).
 
-### 6.3 Una función por cada opción ★
+<br><br>
+
+### 6.3 Operaciones del servidor
+
+El servidor acepta seis operaciones. Cada una tiene una responsabilidad concreta:
+
+| Operación | Función |
+|---|---|
+| `ANADIR` | valida y añade una aeronave al final de la lista |
+| `ELIMINAR` | busca una aeronave por ID y la elimina |
+| `MODIFICAR` | cambia uno de los datos de una aeronave existente |
+| `ORDENAR` | ordena la lista por ID ascendente |
+| `MOSTRAR` | devuelve el estado actual sin modificarlo |
+| `SALIR` | responde y solicita el cierre ordenado del servidor |
+
+### 6.4 Una función por cada operación
 
 Al recibir una petición, el servidor mira su **primera palabra** y llama a **una función distinta por cada opción**: una para añadir, otra para eliminar, otra para modificar, otra para ordenar, otra para mostrar y otra para salir. **Las diseñas tú** (nombres, parámetros y qué devuelven). Cada una trabaja con la lista y deja el texto del resultado (por ejemplo, `Aeronave 103 añadida correctamente.` o `ya existe una aeronave con ID 103.`).
 
@@ -304,7 +324,7 @@ si orden es "ELIMINAR"  -> tu función de eliminar
 en otro caso            -> "operación desconocida."
 ```
 
-### 6.4 La respuesta
+### 6.5 La respuesta
 
 Para **toda** petición, válida o no, el servidor envía el resultado **y el estado actual**, con el formato exacto de [docs/PROTOCOLO.md](PROTOCOLO.md): la línea `OK: ...`/`ERROR: ...`, la línea `--- ESTADO ACTUAL: n aeronaves ---` y una línea por aeronave en el orden de la lista. Puedes enviar línea a línea con `enviar_texto()` (sin necesidad de un buffer grande). Al terminar, el servidor cierra la conexión.
 
@@ -318,6 +338,8 @@ Las funciones de `comunicacion.c` las llamas tú, **dentro de tu código**, en e
 | Servidor | en tu función que envía la respuesta (tres tipos) | `enviar_texto()` | enviar `OK:`/`ERROR:`, la cabecera del estado y una línea por aeronave |
 | Cliente | en tu función de hacer una petición, tras `connect()` | `enviar_texto()` | enviar la petición |
 | Cliente | a continuación | `recibir_hasta_cierre()` | leer la respuesta completa |
+
+<br><br><br><br><br><br><br>
 
 Orden de una petición completa, vista desde los dos lados:
 
@@ -336,7 +358,7 @@ Orden de una petición completa, vista desde los dos lados:
                                              cuando el servidor cierra
 ```
 
-### 6.5 Validación (el servidor es la autoridad)
+### 6.6 Validación (el servidor es la autoridad)
 
 El cliente puede validar, pero **el servidor valida siempre**:
 
@@ -354,7 +376,7 @@ El cliente puede validar, pero **el servidor valida siempre**:
 
 Los textos exactos de todos los mensajes están en [docs/PROTOCOLO.md](PROTOCOLO.md).
 
-### 6.6 La lista doblemente enlazada ★
+### 6.7 La lista doblemente enlazada
 
 Las estructuras ya están en `estructuras.h` (**no las modifiques**):
 
@@ -370,24 +392,24 @@ Las estructuras ya están en `estructuras.h` (**no las modifiques**):
 
 En `lista.c` escribes las funciones que necesites (y sus prototipos en `lista.h`). Tu lista debe permitir:
 
-* **añadir** una aeronave **al final** (orden de llegada), sin repetir IDs; si `malloc` falla, comprobarlo. Cuidado con la **lista vacía**;
-* **buscar** una aeronave por su ID;
-* **eliminar** una aeronave por su ID: actualizar los punteros de los vecinos (y `primero` o `ultimo` si era el primero, el último o el único), `free` y `cantidad--`. Si el ID no existe, **no se libera nada**;
-* **ordenar por ID ascendente** **reenlazando** los nodos (sin `malloc` ni copiar datos), y saber si **ya estaba ordenada** (en ese caso la respuesta lo indica y no se toca la lista);
-* **vaciar** la lista liberando **todos** los nodos (guarda `siguiente` **antes** del `free`).
+* **Añadir** una aeronave **al final** (orden de llegada), sin repetir IDs y comprobando si `malloc` falla. Cuidado con la **lista vacía**.
+* **Buscar** una aeronave por su ID.
+* **Eliminar** una aeronave por su ID: actualizar los punteros de los vecinos (y `primero` o `ultimo` si era el primero, el último o el único), `free` y `cantidad--`. Si el ID no existe, **no se libera nada**.
+* **Ordenar por ID ascendente** **reenlazando** los nodos (sin `malloc` ni copiar datos), y saber si **ya estaba ordenada** (en ese caso la respuesta lo indica y no se toca la lista).
+* **Vaciar** la lista liberando **todos** los nodos (guarda `siguiente` **antes** del `free`).
 
 Mantén `cantidad` al día. La ventana gráfica **recorre tu lista**: si tus punteros están mal, lo verás.
 
-### 6.7 El simulador gráfico
+### 6.8 El simulador gráfico
 
-Al arrancar, **tu `main`** llama a `iniciar_simulador()` (si no hay entorno gráfico, avisa y sigue sin ventana). Después llamas a `actualizar_simulador(&lista)` **después de cada petición**; la ventana muestra una casilla por aeronave, **en el orden de tu lista**, y al ordenar se recolocan. Con la ventana cerrada, o sin entorno gráfico, no hace nada y el servidor sigue igual.
+Al arrancar, **tu `main`** llama a `iniciar_simulador()` (si no hay entorno gráfico, avisa y sigue sin ventana). Después llamas a `actualizar_simulador(&lista)` **después de cada petición**. La ventana muestra una casilla por aeronave, **en el orden de tu lista**, y al ordenar se recolocan. Con la ventana cerrada, o sin entorno gráfico, no hace nada y el servidor sigue igual.
 
-### 6.8 Cierre del servidor y registro ★
+### 6.9 Cierre del servidor y registro
 
 El servidor termina por **dos** motivos:
 
 1. **Ctrl+C**. Ya está preparado: el programa pone `g_parar = 1` y también `g_senal = 1`, para que al cerrar sepas (y apuntes en el registro) que el motivo ha sido Ctrl+C y no `SALIR`.
-2. **Una petición `SALIR`**: tu función de salir pone `g_parar = 1` (y la respuesta es `OK: Cierre aceptado. El aeropuerto se cierra.`); el bucle termina al acabar esa petición.
+2. **Una petición `SALIR`**: tu función de salir pone `g_parar = 1` y responde `OK: Cierre aceptado. El aeropuerto se cierra.` El bucle termina al acabar esa petición.
 
 Al cerrar, y por este orden: cierra el socket de escucha, **libera todos los nodos de la lista**, cierra el registro e imprime por pantalla:
 
@@ -413,7 +435,7 @@ La IP y el puerto del cliente los obtienes del propio `accept()`: pásale una `s
 
 *(Opcional: empieza cada línea con la fecha y la hora, con `time()`, `localtime()` y `strftime()`.)*
 
-### 6.9 Gestión de memoria ★
+### 6.10 Gestión de memoria
 
 **La memoria que reservas es tuya y tienes que liberarla.** En el servidor es, sobre todo, la de los **nodos de la lista** (`malloc` al añadir, `free` al eliminar y al cerrar) y el fichero del registro (`fopen`/`fclose`). Lo que **no** es tuyo: lo del simulador gráfico (lo libera `detener_simulador`). `make memoria` ejecuta el servidor real bajo valgrind con una sesión completa y **falla si queda memoria sin liberar**.
 
@@ -452,22 +474,27 @@ Para cada opción: **pedir los datos al usuario** (volviendo a preguntar si un n
 | Situación | Qué debe ocurrir |
 |---|---|
 | ID repetido al añadir | `ERROR: ya existe una aeronave con ID n.` + estado |
-| Eliminar/modificar un ID inexistente | `ERROR: no existe ninguna aeronave con ID n.`; no se libera nada |
-| Capacidad o combustible no válidos | error específico; la lista no cambia |
+| Eliminar/modificar un ID inexistente | `ERROR: no existe ninguna aeronave con ID n.` y no se libera nada |
+| Capacidad o combustible no válidos | error específico y la lista no cambia |
 | Orden desconocida / palabras de más o de menos | `operación desconocida.` / `formato de petición incorrecto.` |
-| Texto más largo que el campo | no desbordar el array; `ERROR: texto demasiado largo.` y la lista no cambia |
+| Texto más largo que el campo | `ERROR: texto demasiado largo.`, sin desbordar el array y sin cambiar la lista |
 | Línea incorrecta en el fichero inicial | se salta, se apunta en el registro y se sigue cargando |
 | Fichero inicial que no se puede abrir | avisar y terminar con `EXIT_FAILURE` (sin arrancar) |
 | Argumentos incorrectos (puerto, IP, de más o de menos) | mensaje de uso por `stderr` y `EXIT_FAILURE` |
 | Mensaje que llega en trozos | se lee hasta el `\n` |
-| Cliente que se conecta y no envía nada | `recibir_linea` devuelve -1 a los 3 s; se registra (con su IP y puerto) y se sigue |
+| Cliente que se conecta y no envía nada | `recibir_linea` devuelve -1 a los 3 s, se registra (con su IP y puerto) y se sigue |
 | Cliente que se va a mitad de la respuesta | el servidor no se cae (SIGPIPE ya ignorado) |
 | `SALIR` | respuesta `OK:`, el servidor se cierra y lo registra |
 | Servidor no disponible (en el cliente) | avisar y no colgarse |
 | `socket`, `bind`, `accept`, `read`, `write`, `malloc` que fallan | comprobar siempre el retorno |
 | `aeropuerto.log` no se puede abrir | avisar y seguir sin registro |
 
-Reglas de código: nunca `gets()`; nunca `strcpy` sin comprobar tamaños (lee los textos en un array grande, comprueba con `strlen` que caben y cópialos con `snprintf`); constantes de `estructuras.h`, sin números mágicos; sin avisos con `-Wall -Wextra -Wpedantic`.
+Reglas de código:
+
+* Nunca `gets()`.
+* Nunca `strcpy` sin comprobar tamaños: lee los textos en un array grande, comprueba con `strlen` que caben y cópialos con `snprintf`.
+* Usa las constantes de `estructuras.h`, sin números mágicos.
+* Sin avisos con `-Wall -Wextra -Wpedantic`.
 
 ---
 <br>
@@ -512,17 +539,17 @@ test_comunicacion_servidor: 16 comprobaciones, 11 fallos
 
 Aquí se esperaba que `enviar_texto` devolviera 0 y que `recibir_linea` devolviera 7 (la longitud de `MOSTRAR`).
 
-* Las líneas `FALLO fichero:línea: expresión` salen primero: cada una es una comprobación concreta que **no se cumple**; abre ese fichero en esa línea para ver qué esperaba. Justo debajo, `[ OK ]` / `[FAIL]` es el resultado de ese grupo.
-* La última línea resume cuántas comprobaciones hay y cuántas fallan. Has terminado esa parte cuando pone `0 fallos`; al final aparece `== TODAS LAS COMPROBACIONES OK ==`.
+* Las líneas `FALLO fichero:línea: expresión` salen primero: cada una es una comprobación concreta que **no se cumple**. Abre ese fichero en esa línea para ver qué esperaba. Justo debajo, `[ OK ]` / `[FAIL]` es el resultado de ese grupo.
+* La última línea resume cuántas comprobaciones hay y cuántas fallan. Has terminado esa parte cuando pone `0 fallos`, y al final aparece `== TODAS LAS COMPROBACIONES OK ==`.
 * Si una comprobación se queda esperando datos que tu función no envía, se aborta a los 10 segundos con `TIEMPO AGOTADO` en lugar de colgarse.
-* Los ejecutables quedan en `build/make/tests/`; para pasar solo uno: `./build/make/tests/test_comunicacion_servidor`.
+* Los ejecutables quedan en `build/make/tests/`. Para pasar solo uno: `./build/make/tests/test_comunicacion_servidor`.
 
 ### Pruebas con el programa real
 
 Arrancan **tu servidor** y le hablan con `nc`, como un cliente. Son scripts (`tests/*.sh`).
 
 * `make prueba`: manda peticiones **una por conexión** y comprueba que la respuesta tiene el formato exacto, que hay estado también en los errores, que el estado se comparte entre conexiones, que `ORDENAR` ordena, que el servidor **no** se cierra hasta el `SALIR`, que carga bien un fichero inicial (ignorando las líneas incorrectas), que **los argumentos de los dos programas se validan** y que `aeropuerto.log` contiene lo ocurrido. Muestra `[ OK ]` o `[FAIL]` con la causa en cada paso.
-* `make memoria`: tu servidor bajo `valgrind` con una sesión completa; exige 0 errores y 0 bytes perdidos. Si falla, muestra el informe: busca `definitely lost` y la línea de `malloc`.
+* `make memoria`: tu servidor bajo `valgrind` con una sesión completa. Exige 0 errores y 0 bytes perdidos. Si falla, muestra el informe: busca `definitely lost` y la línea de `malloc`.
 
 Orden recomendado antes de entregar: `make tests` → `make prueba` → `make memoria`.
 
@@ -534,8 +561,8 @@ Orden recomendado antes de entregar: `make tests` → `make prueba` → `make me
 
 * **Fecha límite: 12 de noviembre de 2026 a las 9:00 h**, en el Aula virtual.
 * Sube **un único archivo `.zip`** con tu proyecto. Debe contener:
-  * el `Makefile` completado y el `CMakeLists.txt` (sin cambios);
-  * las carpetas `cliente/` y `servidor/`, con todos los `TODO (estudiante)` resueltos;
+  * El `Makefile` completado y el `CMakeLists.txt` (sin cambios).
+  * Las carpetas `cliente/` y `servidor/`, con todos los `TODO (estudiante)` resueltos.
   * `aeropuerto.log`: el de **una sesión real tuya**, con varias peticiones, algún error y un `SALIR` al final.
 * **No incluyas** la carpeta `build/`, los ejecutables (`aeropuerto`, `controlador`) ni lo que descarga CMake: ocupa mucho y se genera solo. Ejecuta `make clean` antes de comprimir.
 * **No modifiques** `tests/`, `config.mk`, `estructuras.h`, `simulador.h` ni la parte «DADA» del `Makefile`: la corrección usa los originales.
@@ -559,7 +586,7 @@ Orden recomendado antes de entregar: `make tests` → `make prueba` → `make me
 
 ## 12. Relación con el repositorio de referencia (`socket_c`)
 
-En `socket_c` están `server_peticiones.c` y `client_peticiones.c`, la variante de una petición por conexión (`make` los compila y se prueban entre sí); su PARTE 1 son las funciones de `comunicacion.c` y los PASOS A, B y C son el socket de escucha, el bucle de `accept` y la petición del cliente.
+En `socket_c` están `server_peticiones.c` y `client_peticiones.c`, la variante de una petición por conexión (`make` los compila y se prueban entre sí). Su PARTE 1 corresponde a tus `comunicacion.c`, y sus PASOS A, B y C, al socket de escucha, al bucle de `accept` y a la petición del cliente.
 
 | `socket_c` | Esta práctica |
 |---|---|
@@ -584,8 +611,15 @@ En `socket_c` están `server_peticiones.c` y `client_peticiones.c`, la variante 
 * Olvidar `htons()` al rellenar el puerto, o `SO_REUSEADDR` (`Address already in use`).
 * Responder solo al éxito y no a las peticiones erróneas: el cliente se queda esperando.
 * Olvidar **cerrar el socket del cliente** en el servidor: el controlador no termina de leer, porque espera a que el servidor cierre.
-* **Lista:** `free(nodo)` y luego leer `nodo->siguiente`; no actualizar `primero`/`ultimo` al insertar o eliminar el primero, el último o el único; olvidar `cantidad`; liberar un nodo inexistente.
+* **Lista:**
+  * `free(nodo)` y luego leer `nodo->siguiente`.
+  * No actualizar `primero`/`ultimo` al insertar o eliminar el primero, el último o el único.
+  * Olvidar `cantidad`.
+  * Liberar un nodo inexistente.
 * No llamar a `actualizar_simulador(&lista)` después de cambiar la lista (la ventana se queda desactualizada).
 * No liberar la lista al cerrar, o no cerrar el fichero del registro.
 * Abrir el log en modo `"w"` (borra lo anterior) o no hacer `fflush`.
-* **`scanf`:** no descartar el resto de la línea después de leer (lo que sobra se cuela en la siguiente pregunta); no mirar lo que devuelve (`1` = leído, `0` = texto no válido, `EOF` = se acabó la entrada). Con `scanf("%d", ...)` y letras, el texto **no se consume**: si no lo descartas (`scanf("%*[^\n]")`), el bucle vuelve a leer lo mismo para siempre.
+* **`scanf`:**
+  * No descartar el resto de la línea después de leer: lo que sobra se cuela en la siguiente pregunta.
+  * No mirar lo que devuelve (`1` = leído, `0` = texto no válido, `EOF` = se acabó la entrada).
+  * Con `scanf("%d", ...)` y letras, el texto **no se consume**: si no lo descartas (`scanf("%*[^\n]")`), el bucle vuelve a leer lo mismo para siempre.
