@@ -59,7 +59,9 @@ static void manejador_senal(int signo)
 /* PISTA:   - una que, según la primera palabra de la petición (strcmp), llame a la función de la opción; */
 /* PISTA:   - una que envíe la respuesta completa con enviar_texto() (ver docs/PROTOCOLO.md): 1.ª llamada la línea OK:/ERROR:, */
 /* PISTA:     2.ª la cabecera "--- ESTADO ACTUAL: n aeronaves ---" y después una llamada por cada aeronave de la lista; */
-/* PISTA: puedes leer los datos de una petición con sscanf(), por ejemplo: sscanf(linea, "ANADIR %d %63s ...", ...) */
+/* PISTA: puedes leer los datos de una petición con sscanf(), por ejemplo: sscanf(linea, "ANADIR %d %255s ...", ...) */
+/* PISTA: lee cada texto en un array GRANDE (char origen[MAX_PETICION], con "%255s"), comprueba con strlen() que cabe */
+/* PISTA: en su campo (si no: "texto demasiado largo.") y después cópialo con snprintf(a.origen, sizeof a.origen, "%s", origen) */
 /*=================== FIN DE TU CODIGO ====================*/
 
 /* ---------------------------------------------------------------------------------------- */

@@ -92,6 +92,7 @@ La primera línea de la respuesta es `OK: ` o `ERROR: ` seguido de uno de estos 
 | ID ≤ 0 | `ID inválido.` |
 | capacidad fuera de 0..100 | `capacidad fuera de rango.` |
 | combustible negativo | `combustible inválido.` |
+| un texto no cabe en su campo (origen/destino: 63 caracteres; modelo: 31) | `texto demasiado largo.` |
 | campo de `MODIFICAR` desconocido | `campo desconocido.` |
 | faltan o sobran palabras / número mal escrito | `formato de petición incorrecto.` |
 | primera palabra desconocida | `operación desconocida.` |

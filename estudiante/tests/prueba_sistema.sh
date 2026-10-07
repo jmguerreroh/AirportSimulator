@@ -81,6 +81,9 @@ peticion 'ANADIR 8 a b c 10 -3' r8.out
 comprueba "combustible inválido"                  r8.out '^ERROR: combustible inv.*lido\.'
 peticion 'ANADIR -5 a b c 10 3' r9.out
 comprueba "ID inválido"                           r9.out '^ERROR: ID inv.*lido\.'
+peticion 'ANADIR 9 a b ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456 10 3' r9b.out
+comprueba "texto que no cabe en su campo"         r9b.out '^ERROR: texto demasiado largo\.'
+comprueba "el texto largo no añade nada"          r9b.out '^--- ESTADO ACTUAL: 2 aeronaves ---'
 peticion 'ORDENAR' r10.out
 comprueba "ORDENAR ordena"                        r10.out '^OK: Aeropuerto ordenado por ID\.'
 peticion 'ORDENAR' r11.out
